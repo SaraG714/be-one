@@ -6,8 +6,30 @@
 //   - Re-use the same validators but add @IsOptional() to each field
 // ─────────────────────────────────────────────────────────────────────────────
 
-// TODO: import validators from 'class-validator'
+import {
+  IsString,
+  IsOptional,
+  IsEnum,
+  MinLength,
+  MaxLength,
+} from 'class-validator';
+
+const TaskStatus = ['pending', 'in-progress', 'done'] as const;
+type TaskStatus = (typeof TaskStatus)[number];
 
 export class UpdateTaskDto {
-  // TODO: implement the DTO (copy fields from CreateTaskDto and make them optional)
+  @IsOptional()
+  @IsString()
+  @MinLength(3)
+  @MaxLength(100)
+  title?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(300)
+  description?: string;
+
+  @IsOptional()
+  @IsEnum(TaskStatus)
+  status?: TaskStatus;
 }

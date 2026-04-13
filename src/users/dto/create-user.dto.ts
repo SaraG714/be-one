@@ -16,3 +16,41 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 // TODO: your code here
+
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsEnum,
+  IsEmail,
+  IsInt,
+  Min,
+  Max,
+  MinLength,
+  MaxLength,
+} from 'class-validator';
+
+const UserRoles = ['student', 'teacher', 'admin'] as const;
+type UserRoles = (typeof UserRoles)[number];
+
+export class CreateUserDto {
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(2)
+  @MaxLength(50)
+  name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @IsInt()
+  @Min(1)
+  @Max(120)
+  age: number;
+
+  @IsOptional()
+  @IsEnum(UserRoles)
+  role?: UserRoles;
+}
